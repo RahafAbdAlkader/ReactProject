@@ -1,0 +1,106 @@
+/* body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-image: url('../../../../Assets/Doctor2.jpg');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+} */
+.icons-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+  
+  .icon-with-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+  }
+  
+  .icon {
+    color:white;
+    background-color: #146fe6c5;
+    font-size: 100px;
+    border-radius: 50%;
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.2);
+  }
+  
+  .icon:hover {
+    background-color: #6b0ce7c5;
+    color: white;
+  }
+  .icon-with-name span {
+    margin-top: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  
+  
+  .icons-containers {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-end;
+  }
+  
+  .icon-with-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+  }
+  
+  .icons {
+    color:white;
+    background-color: #146fe6c5;
+    font-size: 100px;
+    border-radius: 50%;
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.2);
+  }
+  
+  .icons:hover {
+    background-color: #6b0ce7c5;
+    color: white;
+  }
+  .iconF {
+    color:white;
+    background-color: #146fe6c5;
+    font-size: 68px;
+    border-radius: 50%;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.2);
+  }
+  
+  .iconF:hover {
+    background-color: #6b0ce7c5;
+    color: white;
+  }
+  .icon-with-names span {
+    margin-top: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .home-container {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    /* background-image: url('../../../Assets/Doctor2.jpg'); */
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+  }

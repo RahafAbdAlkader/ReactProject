@@ -20,21 +20,28 @@ const Home = () => {
 };
 
 export const MyComponent = () => {
-  const handleClick = () => {
-    window.location.href = 'https://example.com';
-  };
+
+  const navigate = useNavigate();
+  const handleClickSubAdmin = () => {
+    navigate('/SubAdmin');  };
+
+    const handleClickClinic = () => {
+      navigate('/Clinic');  };
+
+      const handleClickDoctorAd = () => {
+        navigate('/DoctorAd');  };
 
   return (
     <div className="icons-container">
-      <div className="icon-with-name" onClick={handleClick}>
+      <div className="icon-with-name" onClick={handleClickDoctorAd}>
         <FaUserMd className="icon" />
         <span>الأطباء</span>
       </div>
-      <div className="icon-with-name" onClick={handleClick}>
+      <div className="icon-with-name" onClick={handleClickClinic}>
         <FaClinicMedical className="icon" />
         <span>  العيادات التخصصية</span>
       </div>
-      <div className="icon-with-name" onClick={handleClick}>
+      <div className="icon-with-name" onClick={handleClickSubAdmin}>
         <AiOutlineTeam className="icon" />
         <span>المدراء الفرعيين</span>
       </div>
@@ -44,21 +51,23 @@ export const MyComponent = () => {
 
 export const MyComponents = () => {
   const navigate = useNavigate();
-  const handleClick = () => {
+  const handleClickInsurances = () => {
     navigate('/Insurances');  };
+    const handleClickspecialties = () => {
+      navigate('/specialty');  };
 
   return (
     <div className="icons-containers">
-      <div className="icon-with-names" onClick={handleClick}>
+      <div className="icon-with-names" onClick={handleClickInsurances}>
         <FaChartBar className="icons" />
         <span>التقارير</span>
       </div>
-      <div className="icon-with-names" onClick={handleClick}>
+      <div className="icon-with-names" onClick={handleClickspecialties}>
       <FontAwesomeIcon icon={faStethoscope} className="iconF" />
         {/* <AiOutlineMedicineBox className="icons" /> */}
         <span> الاختصاصات الطبية</span>
       </div>
-      <div className="icon-with-names" onClick={handleClick}>
+      <div className="icon-with-names" onClick={handleClickInsurances}>
       <FontAwesomeIcon icon={faHandHoldingHeart} className="iconF" />
 
         {/* <FontAwesomeIcon icon={faShield}  className="iconF" /> */}

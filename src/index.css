@@ -54,27 +54,37 @@ ul{
 li{
   list-style-type: none;
 }
-/* button{
-  text-align: center;
-  box-sizing: border-box;
-  background-color: #146fe6c5;
-  height: 40px;
-  border-radius: 4px;
-} */
+
 .form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  margin: 0;
+  height: 100vh;  
   padding: 0;
-  background-image: url('Assets/login3.jpg');
+  margin-left: -10%;
+  margin: 0 auto;
+}
+
+.button-container {
+  order: 3;
+  margin-left: 30%;
+}
+
+
+.background-image {
+  background-image: url('Assets/loo.png');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
 }
 
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 100%;
+    padding: 10px;
+  }
+}
 input {
   margin: 10px;
   padding: 10px;
@@ -89,10 +99,11 @@ button {
   border-radius: 5px;
   border: none;
   align-self: flex-start;
-  background-color: #3365eea8;
+  background-color: rgb(62, 7, 212);
   color: #fff;
   cursor: pointer;
 }
+
 form {
   display: flex;
   flex-direction: column;
@@ -189,8 +200,8 @@ p{
 
 table {
   border-collapse: collapse;
-  width: 60%;
-  margin-left:300px;
+  width: 80%;
+  margin-left:200px;
  
   direction: rtl;
 }
@@ -205,6 +216,20 @@ th {
   color: white;
 }
 
-tr:nth-child(even) {
-  background-color: #f2f2f2;
+tr {
+  background-color: white;
+}
+.all-container {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* background-image: url('../../../Assets/Doctor2.jpg'); */
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+.custom-toast-container {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

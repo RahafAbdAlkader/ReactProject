@@ -64,6 +64,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -82,9 +84,11 @@ function LoginForm() {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/doctors/login', { email, password });
+      if (response.status === 201) {
       console.log(response.data.loginDetails['access_token']);
       localStorage.setItem('token', response.data.loginDetails['access_token']);
       localStorage.setItem('type', response.data.loginDetails['type']);
+      toast.success('تم تسجيل الدخول بنجاح!');
       //const oken =response.data.type;
       //console.log(oken);
       // تنفيذ أي إجراءات إضافية بناءً على الرد
@@ -94,16 +98,25 @@ function LoginForm() {
         navigate('/Home');
       }
       if (response.data.loginDetails['type']== 1) {
-      navigate('/');
+      navigate('/SupHome');
       }
+      
+
+    }
     } catch (error) {
+      if (error.response.status === 401) {
+        toast.success(' البريد الالكتروني أو كلمة المرور غير صحيحة!');
+    }
+    if (error.response.status === 400) {
+      toast.success(' لا يمكن أن تكون كلمة السر أو البريد الالكتروني فارغ !');
+  }
       console.error(error);
     }
   };
   
   
   return (
-    <div>
+    <div class="background-image">
       <form  className="form-container"   onSubmit={handleSubmit}>
         <div>
           <label>
@@ -121,7 +134,8 @@ function LoginForm() {
           <input type="password" value={password} onChange={handlePasswordChange} />
         </div>
         <br />
-        <button type="submit">تسجيل الدخول</button>
+        <button className="button-container" type="submit">تسجيل الدخول</button>
+        <ToastContainer  position="top-center" className="Toastify__toast-container--top-center"/> 
       </form>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import  {Navbar , Container , NavDropdown , Collapse , Nav} from 'react-bootstrap';
 import './Nav.css';
-import logo from '../../../Assets/logo11.png';
+import logo from '../../../Assets/log1.png';
 const NavbarsLogin = () =>{
     return(
       <Navbar expand="lg">

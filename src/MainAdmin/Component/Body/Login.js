@@ -66,6 +66,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import baseURL from '../../../Config';
+
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -83,7 +85,7 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/doctors/login', { email, password });
+      const response = await axios.post(`${baseURL}/doctors/login`, { email, password });
       if (response.status === 201) {
       console.log(response.data.loginDetails['access_token']);
       localStorage.setItem('token', response.data.loginDetails['access_token']);
@@ -101,22 +103,27 @@ function LoginForm() {
       navigate('/SupHome');
       }
       
-
+      if (response.data.loginDetails['type']== 2) {
+        navigate('/HomePage');
+        }
     }
     } catch (error) {
       if (error.response.status === 401) {
-        toast.success(' البريد الالكتروني أو كلمة المرور غير صحيحة!');
+        toast.error(' البريد الالكتروني أو كلمة المرور غير صحيحة!');
     }
     if (error.response.status === 400) {
-      toast.success(' لا يمكن أن تكون كلمة السر أو البريد الالكتروني فارغ !');
+      toast.error(' لا يمكن أن تكون كلمة السر أو البريد الالكتروني فارغ !');
   }
       console.error(error);
     }
   };
   
+
+  const handleClicksendemail = () => {
+    navigate('/SendEmail');  };
   
   return (
-    <div class="background-image">
+    <div className="background-image">
       <form  className="form-container"   onSubmit={handleSubmit}>
         <div>
           <label>
@@ -135,8 +142,14 @@ function LoginForm() {
         </div>
         <br />
         <button className="button-container" type="submit">تسجيل الدخول</button>
+        
         <ToastContainer  position="top-center" className="Toastify__toast-container--top-center"/> 
+
+        <button className="button-containers" type="submit" onClick={handleClicksendemail}>اعادة تعيين كلمة المرور</button>
+
       </form>
+
+
     </div>
   );
 }

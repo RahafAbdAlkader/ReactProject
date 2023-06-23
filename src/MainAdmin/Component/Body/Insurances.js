@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactModal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import baseURL from '../../../Config';
+
 
 export function MyComponent({ getInsurances }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +23,9 @@ export function MyComponent({ getInsurances }) {
   async function handleSubmit(event) {
     event.preventDefault();
     const headers = { Authorization: `Bearer ${token}` };
-    try {
+    try {debugger;
       const response = await axios.post(
-        'http://localhost:3000/insurances',
+        `${baseURL}/insurances`,
         { companyName },
         { headers }
       );
@@ -34,13 +36,16 @@ export function MyComponent({ getInsurances }) {
       toast.success('تمت اضافة البيانات بنجاح!');
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.success('لا يمكن أن يكون الحقل فارغ!');
+      if (error.response.status === 400 && error.response.data.message.includes("companyName should not be empty")) {
+        toast.error('لا يمكن أن يكون الحقل فارغ!');
+      }
+      if (error.response.status === 400 && error.response.data.message.includes("insurance company with the name")) {
+        const companyName = error.response.data.message.match(/\"(.+?)\"/)[1];
+        toast.error(`شركة التأمين ${companyName} موجودة مسبقاً!`);
       }
       console.error(error);
     }
   }
-
   function openModal() {
     setIsOpen(true);
   }
@@ -109,13 +114,13 @@ function Insurances() {
   
       let response;
       if (filterName) {
-        response = await axios.post('http://localhost:3000/insurances/filter-by-names', { filterName }, {
+        response = await axios.post(`${baseURL}/insurances/filter-by-names`, { filterName }, {
           headers: {
             Authorization: 'Bearer ' + storedToken,
           },
         });
       } else {
-        response = await axios.get('http://localhost:3000/insurances', {
+        response = await axios.get(`${baseURL}/insurances`, {
           headers: {
             Authorization: 'Bearer ' + storedToken,
           },
@@ -140,7 +145,7 @@ function Insurances() {
         navigate('/');
         return;
       }
-      const response =   await axios.delete(`http://localhost:3000/insurances/${insuranceId}`, {
+      const response =   await axios.delete(`${baseURL}/insurances/${insuranceId}`, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -165,7 +170,7 @@ function Insurances() {
         navigate('/');
         return;
       }
-      const response = await axios.put(`http://localhost:3000/insurances/${insuranceId}`, { companyName: updatedCompanyName }, {
+      const response = await axios.put(`${baseURL}/insurances/${insuranceId}`, { companyName: updatedCompanyName }, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -209,6 +214,7 @@ function Insurances() {
     
     <div className="all-container" style={{backgroundColor: "#fdf3e3"}}>
       <Navbars />
+
       <div style={{ margin: '20px' }}>
       
   

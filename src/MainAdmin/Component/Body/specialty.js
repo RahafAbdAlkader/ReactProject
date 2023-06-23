@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactModal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import baseURL from '../../../Config';
 //الاختصاصات الرئيسية
 function Specialty() {
   const [data, setData] = useState([]);
@@ -52,7 +52,7 @@ function Specialty() {
       }
       let response;
       if (filterName) {
-        response = await axios.post('http://localhost:3000/specialties/filter-by-names', { filterName }, {
+        response = await axios.post(`${baseURL}/specialties/filter-by-names`, { filterName }, {
           headers: {
             Authorization: 'Bearer ' + storedToken,
           },
@@ -60,13 +60,14 @@ function Specialty() {
         const sortedData = response.data.specialties.sort((a, b) => a.specialtyId - b.specialtyId); // ترتيب البيانات بالتسلسل
         setData(sortedData);
       } else {
-        response = await axios.get('http://localhost:3000/specialties', {
+        response = await axios.get(`${baseURL}/specialties`, {
         headers: {
           Authorization: 'Bearer ' + storedToken,
           },
         });
         const sortedData = response.data.sort((a, b) => a.specialtyId - b.specialtyId); // ترتيب البيانات بالتسلسل
         setData(sortedData);
+
       }
 
     } catch (error) {
@@ -87,7 +88,7 @@ function Specialty() {
         navigate('/');
         return;
       }
-      const response =  await axios.delete(`http://localhost:3000/specialties/${specialtyId}`, {
+      const response =  await axios.delete(`${baseURL}/specialties/${specialtyId}`, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -112,7 +113,7 @@ function Specialty() {
         navigate('/');
         return;
       }
-      const response = await axios.put(`http://localhost:3000/specialties/${specialtyId}`, { specialtyName: updatedspecialtyName }, {
+      const response = await axios.put(`${baseURL}/specialties/${specialtyId}`, { specialtyName: updatedspecialtyName }, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -123,8 +124,10 @@ function Specialty() {
       toast.success('تم تحديث البيانات بنجاح!');
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.success('لا يمكن أن يكون الحقل فارغ!');
+
+      if (error.response.status === 400 ) {
+
+      toast.error('لا يمكن أن يكون الحقل فارغ!');
       }
       if (error.response.status === 401) {
         navigate('/');
@@ -275,14 +278,14 @@ export function Subspecialty() {
 
       let response;
       if (filterName) {
-        response = await axios.post(`http://localhost:3000/subSpecialties/filter-by-names/${specialtyId}`, { filterName }, {
+        response = await axios.post(`${baseURL}/subSpecialties/filter-by-names/${specialtyId}`, { filterName }, {
           headers: {
             Authorization: 'Bearer ' + storedToken,
           },
         });
 
       }else {
-       response = await axios.get(`http://localhost:3000/specialties/${specialtyId}/subSpecialties`, {
+       response = await axios.get(`${baseURL}/specialties/${specialtyId}/subSpecialties`, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -311,7 +314,7 @@ export function Subspecialty() {
         navigate('/');
         return;
       }
-      const response =    await axios.delete(`http://localhost:3000/subSpecialties/${id}`, {
+      const response =    await axios.delete(`${baseURL}/subSpecialties/${id}`, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -336,7 +339,7 @@ export function Subspecialty() {
         navigate('/');
         return;
       }
-      const response = await axios.put(`http://localhost:3000/subSpecialties/${id}`, { subSpecialtyName: updatedsubSpecialtyName }, {
+      const response = await axios.put(`${baseURL}/subSpecialties/${id}`, { subSpecialtyName: updatedsubSpecialtyName }, {
         headers: {
           Authorization: 'Bearer ' + storedToken
         }
@@ -348,9 +351,12 @@ export function Subspecialty() {
       toast.success('تم تحديث البيانات بنجاح!');
     }
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.success('لا يمكن أن يكون الحقل فارغ!');
+
+      if (error.response.status === 400 ) {
+
+      toast.error('لا يمكن أن يكون الحقل فارغ!');
       }
+
       if (error.response.status === 401) {
         navigate('/');
       } else {
@@ -464,7 +470,7 @@ export function MyComponentsubSpecialty({ getSubSpecialties }) {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       const response = await axios.post(
-        `http://localhost:3000/subSpecialties/${specialtyId}`,
+        `${baseURL}/subSpecialties/${specialtyId}`,
         { subSpecialtyName },
         { headers }
       );
@@ -475,8 +481,12 @@ export function MyComponentsubSpecialty({ getSubSpecialties }) {
       toast.success('تمت اضافة البيانات بنجاح!');
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.success('لا يمكن أن يكون الحقل فارغ!');
+      if (error.response.status === 409 && error.response.data.message.includes("this subSpecialty is alreadyExists")) {
+        toast.error('الاختصاص الفرعي موجود مسبقا!');
+      }
+      if (error.response.status === 400 && error.response.data.message.includes("subSpecialtyName should not be empty")) {
+
+      toast.error('لا يمكن أن يكون الحقل فارغ!');
       }
       console.error(error);
     }
@@ -536,7 +546,7 @@ export function MyComponentSpecialty({ getspecialty }) {
     const headers = { Authorization: `Bearer ${token}` };
     try {
       const response = await axios.post(
-        'http://localhost:3000/specialties',
+        `${baseURL}/specialties`,
         { specialtyName },
         { headers }
       );
@@ -547,8 +557,12 @@ export function MyComponentSpecialty({ getspecialty }) {
       toast.success('تمت اضافة البيانات بنجاح!');
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        toast.success('لا يمكن أن يكون الحقل فارغ!');
+      if (error.response.status === 400 && error.response.data.message.includes("Specialty name must be unique")) {
+        toast.error('الاختصاص الرئيسي موجود مسبقا!');
+      }
+      if (error.response.status === 400 && error.response.data.message.includes("specialtyName should not be empty")) {
+
+      toast.error('لا يمكن أن يكون الحقل فارغ!');
       }
       console.error(error);
     }

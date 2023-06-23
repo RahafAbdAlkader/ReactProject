@@ -1,9 +1,10 @@
 import React from "react";
 import './Css/MainAdminHome.css';
-import { FaUserMd ,FaClinicMedical,FaChartBar} from 'react-icons/fa';
+import { FaUserMd ,FaClinicMedical,FaChartBar,faUser } from 'react-icons/fa';
 import { AiOutlineTeam} from 'react-icons/ai';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 //import { faShield } from '@fortawesome/free-solid-svg-icons';
+
 import Navbars from "../Nav/Navbar";
 import { useNavigate } from 'react-router-dom';
 import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
@@ -26,7 +27,7 @@ export const MyComponent = () => {
     navigate('/SubAdmin');  };
 
     const handleClickClinic = () => {
-      navigate('/Clinic');  };
+      navigate('/Clinics');  };
 
       const handleClickDoctorAd = () => {
         navigate('/DoctorAd');  };

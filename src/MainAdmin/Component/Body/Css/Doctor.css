@@ -1,0 +1,17 @@
+
+  
+
+  
+  .left-column {
+    width: calc(100% / 6);
+    height: 100%;
+    background-color: blue;}
+  
+  .right-column ,.log{
+    flex: 1;
+    height: 100%;
+  
+    background-color: #ecbc89;
+    margin-top :20px;
+  }
+  

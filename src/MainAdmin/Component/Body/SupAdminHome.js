@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons'
 import { faStethoscope } from '@fortawesome/free-solid-svg-icons'
 import Doctor from '../../../Assets/Doctor2.jpg';
+
 const SupHome = () => {
   return (
     <div className="home-container" style={{backgroundImage: "url(" + Doctor + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center"}}>
@@ -18,29 +19,35 @@ const SupHome = () => {
     </div>
   );
 };
+
 export const MyComponent = () => {
 
     const navigate = useNavigate();
-    const handleClickSubAdmin = () => {
-      navigate('/SubAdmin');  };
+
   
-    const handleClick = () => {
-      window.location.href = 'https://example.com';
-    };
+      const handleClickClinic = () => {
+        navigate('/Clinics');  };
   
+        const handleClickDoctorAd = () => {
+          navigate('/DoctorAd');  };
+  
+  
+          const handleClickProfile = () => {
+            navigate('/Profiles');  };
+
     return (
       <div className="icons-container">
-        <div className="icon-with-name" onClick={handleClick}>
+        <div className="icon-with-name" onClick={handleClickDoctorAd}>
           <FaUserMd className="icon" />
           <span>الأطباء</span>
         </div>
-        <div className="icon-with-name" onClick={handleClick}>
+        <div className="icon-with-name" onClick={handleClickClinic}>
           <FaClinicMedical className="icon" />
           <span>  العيادات التخصصية</span>
         </div>
-        <div className="icon-with-name" onClick={handleClickSubAdmin}>
+        <div className="icon-with-name" onClick={handleClickProfile}>
           <AiOutlineTeam className="icon" />
-          <span>المدراء الفرعيين</span>
+          <span>الملف الشخصي</span>
         </div>
       </div>
     );
@@ -73,7 +80,6 @@ export const MyComponent = () => {
       </div>
     );
   };
-
 
 
 

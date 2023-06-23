@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbars from '../Nav/Navbar';
 import { useNavigate } from 'react-router-dom';
-import { faEdit} from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactModal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import baseURL from '../../../Config';
 export function MyComponent({ getSubAdmin }) {
     const [isOpen, setIsOpen] = useState(false);
     const [firstname, setfirstname] = useState('');
@@ -34,7 +34,7 @@ export function MyComponent({ getSubAdmin }) {
       const headers = { Authorization: `Bearer ${token}` };
       try {
         const response = await axios.post(
-          'http://localhost:3000/admins',
+          `${baseURL}/admins`,
           {  firstname ,
             lastname,
             phonenumber,
@@ -50,7 +50,7 @@ export function MyComponent({ getSubAdmin }) {
         }
       } catch (error) {
         if (error.response.status === 400) {
-          toast.success(' لا يمكن أن يكون الحقل فارغ أو يكون الحساب الالكتروني (الايميل) موجود مسبقا!');
+          toast.error(' لا يمكن أن يكون الحقل فارغ أو يكون الحساب الالكتروني (الايميل) موجود مسبقا!');
         }
         console.error(error);
       }
@@ -158,13 +158,13 @@ function SubAdmin() {
     
         let response;
         if (filterName) {
-          response = await axios.post('http://localhost:3000/admins/filter-by-names', { filterName }, {
+          response = await axios.post(`${baseURL}/admins/filter-by-names`, { filterName }, {
             headers: {
               Authorization: 'Bearer ' + storedToken,
             },
           });
         } else {
-          response = await axios.get('http://localhost:3000/admins', {
+          response = await axios.get(`${baseURL}/admins`, {
             headers: {
               Authorization: 'Bearer ' + storedToken,
             },
@@ -210,7 +210,7 @@ function SubAdmin() {
     }
       } catch (error) {
         if (error.response.status === 400) {
-            toast.success(' لا يمكن أن يكون الحقل فارغ أو يكون الحساب الالكتروني (الايميل) موجود مسبقا!');
+            toast.error(' لا يمكن أن يكون الحقل فارغ أو يكون الحساب الالكتروني (الايميل) موجود مسبقا!');
         }
         if (error.response.status === 401) {
           navigate('/');
@@ -220,6 +220,35 @@ function SubAdmin() {
       }
     }
   
+
+
+    async function deleteSubAdmin(adminId) {
+      try {
+        const storedToken = localStorage.getItem('token');
+        if (!storedToken) {
+          navigate('/');
+          return;
+        }
+        const response =   await axios.delete(`http://localhost:3000/admins/${adminId}`, {
+          headers: {
+            Authorization: 'Bearer ' + storedToken
+          }
+        });
+        if (response.status === 200) {
+          getSubAdmin();
+        toast.success('تم الحذف  بنجاح!');
+        }
+      } catch (error) {
+        if (error.response.status === 401) {
+         navigate('/');
+        } else {
+          console.error(error);
+        }
+      }
+    }
+
+
+
     function handleFilterNameChange(event) {
       setFilterName(event.target.value);
     }
@@ -286,7 +315,7 @@ function SubAdmin() {
                 <th style={{ border: '1px solid black', padding: '5px' }}>الاسم</th>
                 <th style={{ border: '1px solid black', padding: '5px' }}>الكنية</th>
                 <th style={{ border: '1px solid black', padding: '5px' }}>رقم الهاتف </th>
-                <th style={{ border: '1px solid black', padding: '5px' }}>الايميل</th>
+                <th style={{ border: '1px solid black', padding: '5px' }}>البريد الالكتروني</th>
                 <th style={{ border: '1px solid black', padding: '5px' }}>التحكم</th>
               </tr>
             </thead>
@@ -331,9 +360,13 @@ function SubAdmin() {
                       </div>
                     ) : (
                       <div style={{ display: 'flex', justifyContent: 'space-between', width: '70px' }}>
-                        <div onClick={() => handleEditRowClick(subadmin.adminId, subadmin.firstname)}>
+                        <div onClick={() => handleEditRowClick(subadmin.adminId, subadmin.firstname,subadmin.lastname,subadmin.phonenumber,subadmin.email)}>
                           <FontAwesomeIcon icon={faEdit} color="#007bff" />
                         </div>
+                        <div onClick={() => deleteSubAdmin(subadmin.adminId)}>
+                        <FontAwesomeIcon icon={faTrash} color="#dc3545"/>
+                        <ToastContainer  position="top-center" className="Toastify__toast-container--top-center"/> 
+                      </div>
                       </div>
                     )}
                   </td>
@@ -359,66 +392,6 @@ export default SubAdmin;
 
 
 
-
-// export function MyComponent({ getSubAdmin }) {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [companyName, setcompanyName] = useState('');
-//   const token = localStorage.getItem('token');
-
-//   function handlecompanyNameChange(event) {
-//     setcompanyName(event.target.value);
-//   }
-
-//   async function handleSubmit(event) {
-//     event.preventDefault();
-//     const headers = { Authorization: `Bearer ${token}` };
-//     try {
-//       const response = await axios.post(
-//         'http://localhost:3000/insurances',
-//         { companyName },
-//         { headers }
-//       );
-//       console.log(response.data);
-//       setIsOpen(false);
-//       getInsurances(); // استدعاء دالة getInsurances()
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-//   function openModal() {
-//     setIsOpen(true);
-//   }
-
-//   function closeModal() {
-//     setIsOpen(false);
-//   }
-
-//   return (
-//     <div>
-//       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '10vh' }}>
-//   <button onClick={openModal}>اضافة شركة تأمين</button>
-// </div>
-//       <ReactModal
-//         isOpen={isOpen}
-//         onRequestClose={closeModal}
-//         contentLabel="Form Modal"
-//       >
-//         <form onSubmit={handleSubmit}>
-//           <label htmlFor="companyName">: اسم شركة التأمين</label>
-//           <input
-//             id="companyName"
-//             type="text"
-//             value={companyName}
-//             onChange={handlecompanyNameChange}
-//           />
-//           <button type="submit">اضافة</button>
-//         </form>
-//         <button onClick={closeModal}>اغلاق</button>
-//       </ReactModal>
-//     </div>
-//   );
-// }
 
 
 
